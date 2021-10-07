@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<a asp-action="IssueCookies">IssueCookies</a>
+<br />
+<a asp-action="CookiesTest">CookiesTest</a>
+<br />
+<a href="#" onclick="heartBeat()">HeartBeat</a>
+<br />
+
+@section scripts {
+    <script>
+        function heartBeat() {
+            $.get('/Home/HeartBeat', function () {
+                console.log('beep');
+            });
+        }
+    </script>
+}
