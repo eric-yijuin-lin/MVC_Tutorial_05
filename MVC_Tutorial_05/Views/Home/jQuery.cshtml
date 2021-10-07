@@ -58,12 +58,21 @@
                 success: function (resp) {
                     if (resp && resp.length > 0) {
                         const selectElement = $("#select-1");
-                        selectElement.empty();
+                        selectElement.empty(); // 清空 select options
                         for (let i = 0; i < resp.length; i++) {
                             selectElement.append(new Option(resp[i].name, resp[i].value));
                         }
                     }
                 }
+            }).then(function () {
+                $("#select-1").on('change', function () {
+                    // 禮拜四上課的時候 val 後面忘記加小括號
+                    // 所以 alert 出來的是一個 function 定義但沒有執行 function
+                    // 加上 小括號之後就能取出值了
+                    // $(this) 代表叫 jQuery 幫我們取 "觸發這個 event" 的元素
+                    // 也就是被選中的 option
+                    alert($(this).val()); 
+                });
             });
         });
 
@@ -83,8 +92,9 @@
         }
 
         function changeParagraphText() {
-            const originalText = $("#p-1").text();
-            $("#p-1").text(originalText + "jQuery 增加了一些文字。")
+            const originalText = $('#p-1').text(); // text('value')-> set text() -> get, css('css_name') -> get
+                                                                                    // css('css_name', 'value') -> set
+            $("#p-1").text(originalText + "jQuery 增加了一些文字。");
         }
 
         function changeListColor() {

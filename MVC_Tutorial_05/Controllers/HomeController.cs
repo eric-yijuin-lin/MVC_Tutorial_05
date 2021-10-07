@@ -33,8 +33,8 @@ namespace MVC_Tutorial_05.Controllers
         }
         public IActionResult IssueCookies()
         {
-            HttpContext.Session.SetString("TextKey", "Key123");
-            HttpContext.Session.SetInt32("IntKey", 12345);
+            HttpContext.Session.SetInt32("TestNumber", 12345);
+            HttpContext.Session.SetString("UserGuid", Guid.NewGuid().ToString());
 
             var cookieOption = new CookieOptions()
             {
@@ -64,8 +64,17 @@ namespace MVC_Tutorial_05.Controllers
 
         public IActionResult CookiesTest()
         {
-            var textKey = HttpContext.Session.GetString("TextKey");
-            var intKey = HttpContext.Session.GetInt32("IntKey");
+            var intKey = HttpContext.Session.GetInt32("TestNumber");
+            var userGuid = HttpContext.Session.GetString("UserGuid");
+            if (string.IsNullOrEmpty(userGuid))
+            {
+                // Login
+            }
+            else
+            {
+                // proceed
+            }
+
             var cookie = HttpContext.Request.Cookies["SimpleCookie"];
             var cookie2 = JsonConvert.DeserializeObject<UserPreference>(
                 HttpContext.Request.Cookies["ComplexCookie"]
@@ -119,7 +128,7 @@ namespace MVC_Tutorial_05.Controllers
             return View();
         }
 
-        public async Task<IActionResult> GetDummySelectList()
+        public async Task<IActionResult> GetDummySelectList() // 400 badrequest
         {
             await Task.Delay(3000);
             return Json(new List<DemoListItem>()
@@ -141,7 +150,7 @@ namespace MVC_Tutorial_05.Controllers
             mail.From = new MailAddress("mvc.20210820@gmail.com");
             mail.To.Add("mvc.20210820@gmail.com");
             mail.Subject = "MVC 寄信測試";
-            mail.Body = $"<h1>Hello World!</h1>";
+            mail.Body = $"<h1>Hello World2!</h1>";
             mail.IsBodyHtml = true;
 
             SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);

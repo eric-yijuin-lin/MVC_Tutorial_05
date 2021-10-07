@@ -29,7 +29,7 @@ namespace MVC_Tutorial_05
             {
                 option.IdleTimeout = TimeSpan.FromSeconds(5);
                 option.Cookie.Name = "MvcTutoralSession";
-                option.Cookie.HttpOnly = true;
+                option.Cookie.HttpOnly = true; // true = 只能透過常規 http request 存取 session
                 option.Cookie.IsEssential = true; // CheckConsentNeeded 會防止送出 non-essential 的
                 // cookie, 設為 true 就代表不管，通通給我送
             });
