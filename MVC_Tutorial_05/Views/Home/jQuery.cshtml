@@ -1,0 +1,122 @@
+﻿<h1>jQuery Test</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+            <p id="p-1">
+                這是一個 P 元素，ID = "p-1".
+            </p>
+            <br />
+            <button onclick="changeParagraphColor()">變換顏色</button>
+            <button onclick="changeParagraphText()">增加文字</button>
+        </div>
+        <div class="col-sm-3">
+            <ul id="ul-1">
+                <li>item 1</li>
+                <li>item 2</li>
+                <li>item 3</li>
+            </ul>
+            <br />
+            <button onclick="changeListColor()">變換背景顏色</button>
+            <button onclick="addListItem()">插入項目</button>
+        </div>
+        <div class="col-sm-3">
+            <table id="table-1" border="1">
+                <tr>
+                    <th>表頭1</th>
+                    <th>表頭2</th>
+                    <th>表頭3</th>
+                </tr>
+                <tr>
+                    <td>data 1-1</td>
+                    <td>data 1-2</td>
+                    <td>data 1-3</td>
+                </tr>
+                <tr>
+                    <td>data 2-1</td>
+                    <td>data 2-2</td>
+                    <td>data 2-3</td>
+                </tr>
+            </table>
+            <br />
+            <button onclick="insertRow()">插入 row</button>
+            <button onclick="addClickEvent()">加入點擊事件</button>
+        </div>
+        <div class="col-sm-3">
+            <select id="select-1">
+                <option>Loding</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/Home/GetDummySelectList',
+                method: 'GET', // jQueyr 1.9 版以前只能用 type: 'GET'，1.9以後兩個都可以
+                success: function (resp) {
+                    if (resp && resp.length > 0) {
+                        const selectElement = $("#select-1");
+                        selectElement.empty();
+                        for (let i = 0; i < resp.length; i++) {
+                            selectElement.append(new Option(resp[i].name, resp[i].value));
+                        }
+                    }
+                }
+            });
+        });
+
+        var counter = 0;
+        function changeParagraphColor() {
+            const pElement = $("#p-1");
+            pElement.removeClass('text-danger');
+
+            if (counter % 2 === 0) {
+                pElement.addClass('text-danger');
+                pElement.css('font-size', '24px');
+            } else {
+                pElement.addClass('text-dark');
+                pElement.css('font-size', '14px');
+            }
+            counter++;
+        }
+
+        function changeParagraphText() {
+            const originalText = $("#p-1").text();
+            $("#p-1").text(originalText + "jQuery 增加了一些文字。")
+        }
+
+        function changeListColor() {
+            if (counter % 2 === 0) {
+                $("#ul-1").addClass('bg-primary');
+            } else {
+                $("#ul-1").removeClass('bg-primary');
+            }
+            counter++;
+        }
+
+        function addListItem() {
+            const ulElement = $("#ul-1");
+            ulElement.append('<li>jQuery 新增了 item</li>');
+        }
+
+        function insertRow() {
+            $("#table-1 > tbody").append(`
+                <tr>
+                    <td>data j-1</td>
+                    <td>data j-2</td>
+                    <td>data j-3</td>
+                </tr>
+            `);
+        }
+
+        function addClickEvent() {
+            const cells = $("table > tbody > tr > td");
+            console.log(cells.length);
+            $("table > tbody > tr > td").click(function () {
+                alert('jQuery event');
+            });
+        }
+    </script>
+}
